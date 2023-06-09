@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json.Linq;
+﻿using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using TravelGuideAPI.Models;
 
 namespace TravelGuideAPI.Services
@@ -10,26 +11,23 @@ namespace TravelGuideAPI.Services
         public CurrencyService(HttpClient httpClient)
         {
             _httpClient = httpClient;
+            _httpClient.DefaultRequestHeaders.Add("X-RapidAPI-Key", "33942b936bmshcded9c9d9284ad8p1d1f0bjsn698a3615ff07");
+            _httpClient.DefaultRequestHeaders.Add("X-RapidAPI-Host", "currency-conversion-and-exchange-rates.p.rapidapi.com");
         }
 
         public async Task<CurrencyModel> GetCurrencyDataAsync(string baseCurrency)
         {
-            var response = await _httpClient.GetAsync($"https://api.currencyapi.com/v3/latest?apikey=dZzUGTrUZ0oYbdh0YTZe2cya5GOiJAWB0LhWoTEY&currencies=EUR,USD,JPY&base={baseCurrency}");
+            var httpResponse = await _httpClient.GetAsync($"https://currency-conversion-and-exchange-rates.p.rapidapi.com/latest?from={baseCurrency}&to=EUR,USD,JPY");
 
-            response.EnsureSuccessStatusCode();
+            httpResponse.EnsureSuccessStatusCode();
 
-            var data = await response.Content.ReadAsStringAsync();
-            var currencyJson = JObject.Parse(data);
+            var currencyJson = await httpResponse.Content.ReadAsStringAsync();
+            var currencyData = JsonConvert.DeserializeObject<CurrencyData>(currencyJson);
 
             return new CurrencyModel
             {
-                BaseCurrency = currencyJson["base"].ToString(),
-                ConversionRates = new Dictionary<string, double>
-            {
-                { "EUR", double.Parse(currencyJson["rates"]["EUR"].ToString()) },
-                { "USD", double.Parse(currencyJson["rates"]["USD"].ToString()) },
-                { "JPY", double.Parse(currencyJson["rates"]["JPY"].ToString()) },
-            }
+                BaseCurrency = currencyData.Base,
+                ConversionRates = currencyData.Rates
             };
         }
     }
