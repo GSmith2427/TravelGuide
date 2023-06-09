@@ -1,0 +1,17 @@
+﻿@model WeatherModel
+
+@using (Html.BeginForm("Index", "Weather", FormMethod.Get))
+{
+    <label for="location">Enter a location:</label>
+    <input type="text" id="location" name="location" />
+    <input type="submit" value="Get Weather" />
+}
+
+@if (Model != null)
+{
+    <h2>Weather in @Model.Location</h2>
+
+    <p>The current temperature is @Model.Temperature degrees.</p>
+
+    <p>The current weather is @Model.Condition.</p>
+}

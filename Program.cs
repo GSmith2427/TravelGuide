@@ -1,6 +1,14 @@
+﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection;
+using TravelGuideAPI.Services;
+
 var builder = WebApplication.CreateBuilder(args);
 
+
 // Add services to the container.
+builder.Services.AddControllersWithViews();
+builder.Services.AddHttpClient<IWeatherService, WeatherService>();
+builder.Services.AddHttpClient<ICurrencyService, CurrencyService>();
 builder.Services.AddControllersWithViews();
 
 var app = builder.Build();

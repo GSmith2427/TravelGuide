@@ -1,0 +1,20 @@
+﻿@model TravelGuideModel
+
+<form method="post">
+    <input type="text" name="location" placeholder="Enter location" required />
+    <input type="submit" value="Get Travel Guide" />
+</form>
+
+@if (Model != null)
+{
+    <h2>Weather for @Model.Weather.Location</h2>
+    <p>@Model.Weather.Condition</p>
+    <p>Temperature: @Model.Weather.Temperature</p>
+
+    <h2>Currency Rates</h2>
+    <p>Base Currency: @Model.Currency.BaseCurrency</p>
+    @foreach (var rate in Model.Currency.ConversionRates)
+    {
+        <p>@rate.Key: @rate.Value</p>
+    }
+}
