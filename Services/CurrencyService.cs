@@ -19,17 +19,17 @@ namespace TravelGuideAPI.Services
         {
             var httpResponse = await _httpClient.GetAsync($"https://currency-conversion-and-exchange-rates.p.rapidapi.com/latest?from={baseCurrency}&to=EUR,USD,JPY");
 
-            httpResponse.EnsureSuccessStatusCode();
+        httpResponse.EnsureSuccessStatusCode();
 
-            var currencyJson = await httpResponse.Content.ReadAsStringAsync();
-            var currencyData = JsonConvert.DeserializeObject<CurrencyData>(currencyJson);
+        var currencyJson = await httpResponse.Content.ReadAsStringAsync();
+        var currencyData = JsonConvert.DeserializeObject<CurrencyData>(currencyJson);
 
-            return new CurrencyModel
-            {
-                BaseCurrency = currencyData.Base,
-                ConversionRates = currencyData.Rates
-            };
-        }
+        return new CurrencyModel
+        {
+            BaseCurrency = currencyData.Base,
+            ConversionRates = currencyData.Rates
+        };
+    }
     }
 
 }

@@ -1,9 +1,11 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using TravelGuideAPI.Models;
 using TravelGuideAPI.Services;
 
 namespace TravelGuideAPI.Controllers
 {
+    [Authorize]
     public class TravelGuideController : Controller
     {
         private readonly IWeatherService _weatherService;

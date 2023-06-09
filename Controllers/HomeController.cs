@@ -1,5 +1,8 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Cryptography.KeyDerivation;
+using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
+using System.Security.Claims;
 using TravelGuideAPI.Models;
 
 namespace TravelGuideAPI.Controllers
@@ -18,15 +21,41 @@ namespace TravelGuideAPI.Controllers
             return View();
         }
 
-        public IActionResult Privacy()
+        [HttpPost]
+        public async Task<IActionResult> Authenticate(Login model)
         {
-            return View();
+            if (model.Username == "Admin" && model.Password == "Admin") // Replace with your credentials
+            {
+                var claims = new List<Claim>
+        {
+            new Claim(ClaimTypes.Name, model.Username)
+        };
+
+                var userIdentity = new ClaimsIdentity(claims, "User Identity");
+                var userPrincipal = new ClaimsPrincipal(new[] { userIdentity });
+
+                await HttpContext.SignInAsync(userPrincipal);
+
+                return RedirectToAction("Index", "TravelGuide");
+            }
+            return RedirectToAction("Index");
         }
 
-        [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
-        public IActionResult Error()
+        public async Task<IActionResult> GuestLogin()
         {
-            return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+            var claims = new List<Claim>
+    {
+        new Claim(ClaimTypes.Name, "Guest")
+    };
+
+            var userIdentity = new ClaimsIdentity(claims, "Guest Identity");
+            var userPrincipal = new ClaimsPrincipal(new[] { userIdentity });
+
+            await HttpContext.SignInAsync(userPrincipal);
+
+            return RedirectToAction("Index", "TravelGuide");
         }
+
     }
+
 }

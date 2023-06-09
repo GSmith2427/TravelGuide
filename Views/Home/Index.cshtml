@@ -1,8 +1,18 @@
 ﻿@{
-    ViewData["Title"] = "Home Page";
+    ViewData["Title"] = "Login";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
-</div>
+<h2>Login</h2>
+
+<form method="post" action="/Home/Authenticate">
+    <input type="text" name="Username" placeholder="Username" required />
+    <input type="password" name="Password" placeholder="Password" required />
+    <input type="submit" value="Login" />
+</form>
+
+<form method="post" action="/Home/GuestLogin">
+    <input type="submit" value="Guest Login" />
+
+    <a href="@Url.Action("Users","Edit", new { id = 123 })">Edit Item</a>
+</form>
+
