@@ -11,10 +11,14 @@
     <p>@Model.Weather.Condition</p>
     <p>Temperature: @Model.Weather.Temperature</p>
 
+    <h2>Hotel Information</h2>
+    <p>Name: @Model.Hotel.Name</p>
+    <p>Address: @Model.Hotel.Address</p>
+    <p>Rating: @Model.Hotel.Rating</p>
+
     <h2>Currency Rates</h2>
     <p>Base Currency: @Model.Currency.BaseCurrency</p>
-    @foreach (var rate in Model.Currency.ConversionRates)
-    {
-        <p>@rate.Key: @rate.Value</p>
-    }
+    
+
+
 }

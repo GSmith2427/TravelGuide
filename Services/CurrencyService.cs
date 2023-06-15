@@ -17,7 +17,7 @@ namespace TravelGuideAPI.Services
 
         public async Task<CurrencyModel> GetCurrencyDataAsync(string baseCurrency)
         {
-            var httpResponse = await _httpClient.GetAsync($"https://currency-conversion-and-exchange-rates.p.rapidapi.com/latest?from={baseCurrency}&to=EUR,USD,JPY");
+            var httpResponse = await _httpClient.GetAsync($"https://currency-conversion-and-exchange-rates.p.rapidapi.com/timeseries?start_date=2019-01-01&end_date=2019-01-02&from=USD&to=EUR%2CGBP");
 
         httpResponse.EnsureSuccessStatusCode();
 

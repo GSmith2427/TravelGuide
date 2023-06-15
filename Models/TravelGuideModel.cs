@@ -2,8 +2,8 @@
 {
     public class TravelGuideModel
     {
-        public WeatherModel Weather { get; set; }
-        public CurrencyModel Currency { get; set; }
+        public WeatherModel? Weather { get; set; }
+        public CurrencyModel? Currency { get; set; }
+        public HotelModel? Hotel { get; set; }
     }
-
 }
